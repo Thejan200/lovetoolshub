@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://thejan200.github.io/lovetoolshub/sitemap.xml
