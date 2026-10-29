@@ -6,17 +6,15 @@ const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const outputRoot = join(projectRoot, '_site');
 const publisherId = 'ca-pub-3013687081262680';
 const snippet = `  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${publisherId}" crossorigin="anonymous"></script>\n`;
+const ignored = new Set(['.git', '.github', '_site', 'node_modules']);
 
 await rm(outputRoot, { recursive: true, force: true });
 await mkdir(outputRoot, { recursive: true });
 
-await cp(projectRoot, outputRoot, {
-  recursive: true,
-  filter(source) {
-    const name = basename(source);
-    return !['.git', '.github', '_site', 'node_modules'].includes(name);
-  }
-});
+for (const entry of await readdir(projectRoot, { withFileTypes: true })) {
+  if (ignored.has(entry.name)) continue;
+  await cp(join(projectRoot, entry.name), join(outputRoot, entry.name), { recursive: true });
+}
 
 async function htmlFiles(directory) {
   const entries = await readdir(directory, { withFileTypes: true });
