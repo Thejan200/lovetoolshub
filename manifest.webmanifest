@@ -2,13 +2,13 @@
   "name": "LoveToolsHub — Free Love & Relationship Tools",
   "short_name": "LoveToolsHub",
   "description": "Free love calculators, compatibility tests, quizzes, and romantic tools.",
-  "start_url": "/lovetoolshub/",
-  "scope": "/lovetoolshub/",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#17131b",
   "theme_color": "#FF5B8A",
   "lang": "en-US",
   "icons": [
-    {"src": "/lovetoolshub/assets/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable"}
+    {"src": "/assets/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable"}
   ]
 }
