@@ -52,3 +52,47 @@ document.addEventListener('click',event=>{document.querySelectorAll('.site-info-
 
 /* US interest tools: presented on the home page without adding another header bar. */
 document.addEventListener('DOMContentLoaded',()=>{if(location.pathname!=='/'||document.querySelector('.us-interest-tools'))return;const anchor=document.querySelector('.human-section');if(!anchor)return;const section=document.createElement('section');section.className='section us-interest-tools';section.innerHTML='<div class="container"><h2>💡 Fresh Relationship Reflection Tools</h2><p class="section-intro">Thoughtful prompts for modern dating, communication and connection.</p><div class="grid"><div class="card"><div class="icon">🧭</div><h3>Situationship Clarity Quiz</h3><p>Reflect on consistency, expectations and communication.</p><a href="/situationship-clarity-quiz/">Take quiz →</a></div><div class="card"><div class="icon">🛡️</div><h3>Love-Bombing Awareness</h3><p>Reflect on pacing, boundaries and respectful affection.</p><a href="/love-bombing-awareness-quiz/">Explore →</a></div><div class="card"><div class="icon">🌿</div><h3>Relationship Anxiety Reflection</h3><p>A gentle check-in about uncertainty and reassurance.</p><a href="/relationship-anxiety-reflection/">Reflect →</a></div><div class="card"><div class="icon">💬</div><h3>Communication Style Quiz</h3><p>Explore your habits when feelings are involved.</p><a href="/communication-style-quiz/">Take quiz →</a></div><div class="card"><div class="icon">✨</div><h3>First Date Questions</h3><p>Get a low-pressure conversation starter.</p><a href="/first-date-question-generator/">Get a question →</a></div></div></div>';anchor.before(section);});
+
+
+/* Contextual internal links: displayed near the end of every tool page, never at the top. */
+document.addEventListener('DOMContentLoaded',()=>{
+  const path=location.pathname;
+  const nonToolPaths=['/','/about/','/contact/','/privacy-policy/','/terms/','/cookie-policy/','/disclaimer/','/editorial-standards/'];
+  if(nonToolPaths.includes(path)||document.querySelector('.more-tools-section'))return;
+  const all=[
+    ['/love-calculator/','❤️','Love Calculator','Try a playful name-based score.'],
+    ['/does-my-crush-like-me/','💘','Crush Quiz','Reflect on common social signals.'],
+    ['/date-night-generator/','🌙','Date Night Generator','Find an idea for your next date.'],
+    ['/couple-questions-generator/','💬','Couples Questions','Start a meaningful conversation.'],
+    ['/attachment-style-quiz/','🧩','Attachment Style Quiz','Explore closeness and trust patterns.'],
+    ['/communication-style-quiz/','🗣️','Communication Style','Reflect on how you talk through feelings.'],
+    ['/situationship-clarity-quiz/','🧭','Situationship Clarity','Think about expectations and consistency.'],
+    ['/love-bombing-awareness-quiz/','🛡️','Love-Bombing Awareness','Reflect on pacing and boundaries.'],
+    ['/relationship-anxiety-reflection/','🌿','Relationship Anxiety Reflection','Try a gentle uncertainty check-in.'],
+    ['/first-date-question-generator/','✨','First Date Questions','Get a low-pressure conversation starter.'],
+    ['/love-letter-generator/','💌','Love Letter Generator','Create a warmer message to share.'],
+    ['/love-language-quiz/','💗','Love Language Quiz','Explore how affection lands for you.']
+  ];
+  const keywords={
+    'situationship':['communication','anxiety','attachment','couple'],
+    'love-bombing':['red-flag','green-flag','attachment','communication'],
+    'anxiety':['attachment','communication','situationship','couple'],
+    'communication':['couple','attachment','situationship','date'],
+    'first-date':['date','crush','message','question'],
+    'crush':['first-date','message','date','situationship'],
+    'date-night':['first-date','couple','message','love-letter'],
+    'attachment':['anxiety','communication','situationship','couple'],
+    'red-flag':['love-bombing','green-flag','communication','attachment'],
+    'green-flag':['communication','attachment','couple','love-bombing']
+  };
+  const term=Object.keys(keywords).find(key=>path.includes(key));
+  const preferred=term?keywords[term]:['communication','date','couple','love'];
+  const choices=[];
+  for(const key of preferred){const item=all.find(x=>x[0]!==path&&(x[0].includes(key)||x[2].toLowerCase().includes(key)));if(item&&!choices.includes(item))choices.push(item);}
+  for(const item of all){if(item[0]!==path&&!choices.includes(item))choices.push(item);if(choices.length===4)break;}
+  const section=document.createElement('section');
+  section.className='section more-tools-section';
+  section.innerHTML='<div class="container"><h2>Explore More Free Tools</h2><p class="section-intro">Continue with a related love, dating or relationship tool.</p><div class="grid">'+choices.slice(0,4).map(([url,icon,title,description])=>'<article class="card"><div class="icon">'+icon+'</div><h3>'+title+'</h3><p>'+description+'</p><a href="'+url+'">Try it →</a></article>').join('')+'</div></div>';
+  const footer=document.querySelector('footer');
+  if(footer)footer.before(section);
+});
