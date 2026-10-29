@@ -1,15 +1,24 @@
-# LoveToolsHub
+# LoveTools — Standalone HTML/CSS/JS
 
-A warm, responsive static website for relationship advice, love notes, date ideas, and respectful conversation tools.
+A responsive USA-focused romantic tools starter site with 10 working client-side tools.
 
-## Included
-- Crush Signals Check-in (reflection-based, not a claim to know another person's feelings)
-- First Message Spark generator
-- Heartfelt responsive landing page
-- Starter sections for advice, love letters, date ideas, and gift guides
+## Before publishing
+1. Replace `YOUR-DOMAIN.com` in every HTML file, `robots.txt`, and `sitemap.xml`.
+2. Replace `hello@YOUR-DOMAIN.com` on the Contact page.
+3. Add your real analytics/ads only after reviewing their privacy requirements.
+4. Upload the folder contents to your static host.
 
-## Preview locally
-Open `index.html` in a browser.
+## Pages
+- /love-calculator/
+- /love-compatibility/
+- /zodiac-love-compatibility/
+- /birthday-compatibility/
+- /does-my-crush-like-me/
+- /relationship-compatibility-test/
+- /love-test/
+- /days-together-calculator/
+- /anniversary-calculator/
+- /romantic-message-generator/
 
-## GitHub Pages
-After merging the site PR, go to **Settings → Pages**, choose **Deploy from a branch**, then select **main** and **/(root)**. GitHub will provide the published URL. Add a custom domain only after registering and configuring it with your domain provider.
+## Notes
+All scores are intentionally presented as entertainment. The site does not claim scientific prediction or diagnosis.
