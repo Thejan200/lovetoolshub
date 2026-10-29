@@ -2,30 +2,10 @@ const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>\"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#039;'}[m]));
 
 /* Site-wide favicon */
-(function(){if(document.querySelector('link[rel~="icon"]'))return;const link=document.createElement('link');link.rel='icon';link.type='image/svg+xml';link.href='/assets/favicon.svg';document.head.appendChild(link)})();
+(function(){if(document.querySelector('link[rel~="icon"]'))return;const link=document.createElement('link');link.rel='icon';link.type='image/svg+xml';link.href='/lovetoolshub/assets/favicon.svg';document.head.appendChild(link)})();
 
 /* Site-wide PWA metadata/registration */
-(function(){if(!document.querySelector('link[rel="manifest"]')){const link=document.createElement('link');link.rel='manifest';link.href='/manifest.webmanifest';document.head.appendChild(link)}if(!document.querySelector('meta[name="theme-color"]')){const meta=document.createElement('meta');meta.name='theme-color';meta.content='#fff7fb';document.head.appendChild(meta)}if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js').catch(()=>{}),{once:true})})();
-
-/* Performance: load non-critical third-party ads after the main page is usable. */
-function loadMonetagScript(src,zone,marker){
-  if(document.querySelector(`script[data-lovetools-ad="${marker}"]`))return;
-  const s=document.createElement('script');
-  s.dataset.lovetoolsAd=marker;
-  s.dataset.zone=zone;
-  s.async=true;
-  s.src=src;
-  document.head.appendChild(s);
-}
-function scheduleMonetag(){
-  const load=()=>{
-    loadMonetagScript('https://nap5k.com/tag.min.js','11686547','inpage-11686547');
-    loadMonetagScript('https://n6wxm.com/vignette.min.js','11686664','vignette-11686664');
-  };
-  if('requestIdleCallback' in window) requestIdleCallback(load,{timeout:1800});
-  else setTimeout(load,900);
-}
-window.addEventListener('load',()=>setTimeout(scheduleMonetag,250),{once:true});
+(function(){if(!document.querySelector('link[rel="manifest"]')){const link=document.createElement('link');link.rel='manifest';link.href='/lovetoolshub/manifest.webmanifest';document.head.appendChild(link)}if(!document.querySelector('meta[name="theme-color"]')){const meta=document.createElement('meta');meta.name='theme-color';meta.content='#fff7fb';document.head.appendChild(meta)}if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('/lovetoolshub/sw.js').catch(()=>{}),{once:true})})();
 
 /* Site-wide theme preference */
 (function(){const saved=localStorage.getItem('lovetools-theme');if(saved==='dark')document.documentElement.classList.add('dark-mode')})();
@@ -58,3 +38,5 @@ if($('#annCalc'))$('#annCalc').onsubmit=e=>{e.preventDefault();let raw=$('#annDa
 if($('#msgGen'))$('#msgGen').onsubmit=e=>{e.preventDefault();let mood=$('#msgMood').value,name=$('#msgName').value.trim(),address=name?` ${esc(name)}`:'';let templates={Romantic:`My love${address}, every moment with you feels like a little piece of magic. I’m grateful for you today and every day. ❤️`,Cute:`${name?`Hey ${esc(name)}, `:''}just a little reminder that you make my days brighter and my heart happier. Thinking of you! 💕`,Flirty:`${name?`${esc(name)}, `:''}I was trying to focus today, but then you crossed my mind again. Clearly, you’re becoming my favorite distraction. 😉`,Sweet:`${name?`${esc(name)}, `:''}I hope you know how special you are to me. Thank you for being someone I can smile about every day. 💗`,Anniversary:`Happy anniversary${address}! I’m so grateful for every memory we’ve created and excited for all the moments still ahead. ❤️`};showResult($('#msgResult'),`<h2>Your ${esc(mood)} Message</h2><p class="quote">${templates[mood]}</p><button class="btn" type="button" id="copyMessage">Copy Message</button><p id="copyStatus" class="notice" hidden>Message copied! 💕</p>`);const copy=$('#copyMessage');if(copy)copy.onclick=async()=>{try{await navigator.clipboard.writeText($('#msgResult .quote').innerText);$('#copyStatus').hidden=false}catch{const ta=document.createElement('textarea');ta.value=$('#msgResult .quote').innerText;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();$('#copyStatus').hidden=false}}};});
 
 document.addEventListener('DOMContentLoaded',()=>{if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;const layer=document.createElement('div');layer.className='heart-rain';layer.setAttribute('aria-hidden','true');document.body.appendChild(layer);const mobile=window.matchMedia('(max-width:600px)').matches,count=mobile?4:6;const spawn=()=>{const heart=document.createElement('span');heart.className='floating-heart';heart.textContent=Math.random()>.28?'♥':'❤';heart.style.left=`${Math.random()*100}%`;heart.style.setProperty('--drift',`${(Math.random()*90-45).toFixed(0)}px`);heart.style.setProperty('--spin',`${(Math.random()*80-40).toFixed(0)}deg`);heart.style.animationDuration=`${(7+Math.random()*5).toFixed(1)}s`;heart.style.animationDelay=`${(Math.random()*1.5).toFixed(2)}s`;heart.style.fontSize=`${(12+Math.random()*7).toFixed(0)}px`;layer.appendChild(heart);heart.addEventListener('animationend',()=>heart.remove(),{once:true})};for(let i=0;i<count;i++)spawn();const timer=setInterval(spawn,3200);window.addEventListener('pagehide',()=>clearInterval(timer),{once:true})});
+/* Site-wide legal links */
+document.addEventListener('DOMContentLoaded',()=>{const c=document.querySelector('.copyright');if(!c||c.querySelector('.legal-links'))return;const links=document.createElement('span');links.className='legal-links';links.innerHTML=' · <a href="/lovetoolshub/cookie-policy/">Cookie Policy</a> · <a href="/lovetoolshub/disclaimer/">Disclaimer</a> · <a href="/lovetoolshub/editorial-standards/">Editorial Standards</a>';c.appendChild(links);});
