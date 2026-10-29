@@ -96,3 +96,51 @@ document.addEventListener('DOMContentLoaded',()=>{
   const footer=document.querySelector('footer');
   if(footer)footer.before(section);
 });
+
+
+/* Searchable tool finder: a compact command-palette style search, within the existing header. */
+document.addEventListener('DOMContentLoaded',()=>{
+  if(document.querySelector('.tool-finder-button'))return;
+  const tools=[
+    ['Love Calculator','/love-calculator/','love score names romance'],
+    ['Love Compatibility','/love-compatibility/','compatibility romance names'],
+    ['Crush Quiz','/does-my-crush-like-me/','does my crush like me signals dating'],
+    ['Zodiac Compatibility','/zodiac-love-compatibility/','zodiac astrology signs'],
+    ['Birthday Compatibility','/birthday-compatibility/','birthday zodiac match'],
+    ['Relationship Compatibility Test','/relationship-compatibility-test/','relationship communication connection'],
+    ['Love Test','/love-test/','love relationship quiz'],
+    ['Days Together Calculator','/days-together-calculator/','relationship days counter anniversary'],
+    ['Anniversary Calculator','/anniversary-calculator/','anniversary date milestone'],
+    ['Love Language Quiz','/love-language-quiz/','love language affection'],
+    ['FLAMES Calculator','/flames-calculator/','flames names game'],
+    ['Soulmate Name Generator','/soulmate-name-generator/','soulmate couple names generator'],
+    ['Date Night Generator','/date-night-generator/','date ideas activity'],
+    ['Red Flag Quiz','/red-flag-quiz/','relationship red flags boundaries'],
+    ['Green Flag Quiz','/green-flag-quiz/','healthy relationship green flags'],
+    ['Attachment Style Quiz','/attachment-style-quiz/','attachment trust closeness'],
+    ['Valentine Countdown','/valentine-countdown/','valentines day countdown'],
+    ['Couples Questions','/couple-questions-generator/','couples questions conversation'],
+    ['Love Letter Generator','/love-letter-generator/','love letter romantic writing'],
+    ['Romantic Message Generator','/romantic-message-generator/','romantic text message'],
+    ['Situationship Clarity Quiz','/situationship-clarity-quiz/','situationship expectations dating'],
+    ['Love-Bombing Awareness','/love-bombing-awareness-quiz/','love bombing boundaries awareness'],
+    ['Relationship Anxiety Reflection','/relationship-anxiety-reflection/','anxiety reassurance relationship'],
+    ['Communication Style Quiz','/communication-style-quiz/','communication conflict feelings'],
+    ['First Date Question Generator','/first-date-question-generator/','first date questions conversation']
+  ];
+  const nav=document.querySelector('.navlinks');
+  const trigger=document.createElement('button');
+  trigger.className='tool-finder-button';trigger.type='button';trigger.innerHTML='⌕ <span>Find a tool</span>';trigger.setAttribute('aria-haspopup','dialog');
+  if(nav)nav.appendChild(trigger);
+  const dialog=document.createElement('div');
+  dialog.className='tool-finder';dialog.hidden=true;
+  dialog.innerHTML='<div class="tool-finder-backdrop"></div><section class="tool-finder-panel" role="dialog" aria-modal="true" aria-label="Find a LoveToolsHub tool"><button class="tool-finder-close" type="button" aria-label="Close tool finder">×</button><span class="eyebrow">LOVE TOOL FINDER</span><h2>What are you looking for?</h2><label class="tool-finder-input"><span>⌕</span><input type="search" autocomplete="off" placeholder="Try “date ideas”, “crush” or “anniversary”"></label><div class="tool-finder-chips"><button type="button">Crush</button><button type="button">Date ideas</button><button type="button">Quiz</button><button type="button">Messages</button></div><div class="tool-finder-results" aria-live="polite"></div></section>';
+  document.body.appendChild(dialog);
+  const input=dialog.querySelector('input'),results=dialog.querySelector('.tool-finder-results');
+  const render=query=>{const q=query.trim().toLowerCase();const matches=(q?tools.filter(t=>(t[0]+' '+t[2]).toLowerCase().includes(q)):tools.slice(0,6)).slice(0,8);results.innerHTML=matches.length?matches.map(([name,url,keywords])=>'<a href="'+url+'"><strong>'+name+'</strong><span>'+keywords.split(' ').slice(0,4).join(' · ')+'</span><b>→</b></a>').join(''):'<p class="tool-finder-empty">No exact match yet. Try “love”, “quiz”, “date”, or “message”.</p>';};
+  const open=()=>{dialog.hidden=false;document.body.classList.add('tool-finder-open');render('');setTimeout(()=>input.focus(),0);};
+  const close=()=>{dialog.hidden=true;document.body.classList.remove('tool-finder-open');trigger.focus();};
+  trigger.onclick=open;dialog.querySelector('.tool-finder-close').onclick=close;dialog.querySelector('.tool-finder-backdrop').onclick=close;
+  input.oninput=()=>render(input.value);dialog.querySelectorAll('.tool-finder-chips button').forEach(button=>button.onclick=()=>{input.value=button.textContent;render(input.value);input.focus();});
+  document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!dialog.hidden)close();if((event.ctrlKey||event.metaKey)&&event.key.toLowerCase()==='k'){event.preventDefault();dialog.hidden?open():close();}});
+});
