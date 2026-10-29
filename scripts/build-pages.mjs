@@ -31,7 +31,10 @@ let injected = 0;
 for (const file of await htmlFiles(outputRoot)) {
   const html = await readFile(file, 'utf8');
   if (html.includes(publisherId)) continue;
-  if (!/<\/head>/i.test(html)) throw new Error(`Missing </head> in ${relative(outputRoot, file)}`);
+  if (!/<\/head>/i.test(html)) {
+    console.log(`Skipped non-document HTML file: ${relative(outputRoot, file)}`);
+    continue;
+  }
   await writeFile(file, html.replace(/<\/head>/i, `${snippet}</head>`));
   injected++;
 }
