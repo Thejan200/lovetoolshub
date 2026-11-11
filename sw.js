@@ -18,10 +18,10 @@ self.addEventListener('fetch', event => {
   }).catch(() => caches.match(event.request).then(cached => cached || caches.match('/'))));
 });
 
-// Monetag verification and service-worker integration.
+// Monetag service-worker integration.
 self.options = {
-  "domain": "3nbf4.com",
-  "zoneId": 12241311
+  "domain": "5gvci.com",
+  "zoneId": 12241359
 };
 self.lary = "";
-importScripts("https://3nbf4.com/act/files/service-worker.min.js?r=sw");
+importScripts("https://5gvci.com/act/files/service-worker.min.js?r=sw");
