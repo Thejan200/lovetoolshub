@@ -6,8 +6,6 @@ const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const outputRoot = join(projectRoot, '_site');
 const publisherId = 'ca-pub-3013687081262680';
 const adSenseSnippet = `  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${publisherId}" crossorigin="anonymous"></script>\n`;
-const monetagZoneId = '308912';
-const monetagSnippet = `  <script src="https://quge5.com/88/tag.min.js" data-zone="${monetagZoneId}" async data-cfasync="false"></script>\n`;
 const ignored = new Set(['.git', '.github', '_site', 'node_modules']);
 
 await rm(outputRoot, { recursive: true, force: true });
@@ -41,13 +39,9 @@ for (const file of await htmlFiles(outputRoot)) {
     html = html.replace(/<\/head>/i, `${adSenseSnippet}</head>`);
     changed = true;
   }
-  if (!html.includes(`data-zone="${monetagZoneId}"`)) {
-    html = html.replace(/<\/head>/i, `${monetagSnippet}</head>`);
-    changed = true;
-  }
   if (changed) {
     await writeFile(file, html);
     injected++;
   }
 }
-console.log(`Prepared ${injected} page(s) with the ad scripts.`);
+console.log(`Prepared ${injected} page(s) with the AdSense review code.`);
