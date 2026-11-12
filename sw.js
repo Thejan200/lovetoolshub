@@ -4,7 +4,6 @@ const APP_SHELL = ['/', '/manifest.webmanifest', '/assets/style.css', '/assets/a
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(APP_SHELL)).then(() => self.skipWaiting()));
 });
-
 self.addEventListener('activate', event => {
   event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)))).then(() => self.clients.claim()));
 });
@@ -18,10 +17,3 @@ self.addEventListener('fetch', event => {
   }).catch(() => caches.match(event.request).then(cached => cached || caches.match('/'))));
 });
 
-// Monetag service-worker integration.
-self.options = {
-  "domain": "5gvci.com",
-  "zoneId": 12241359
-};
-self.lary = "";
-importScripts("https://5gvci.com/act/files/service-worker.min.js?r=sw");
