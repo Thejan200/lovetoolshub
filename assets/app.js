@@ -97,6 +97,16 @@ document.addEventListener('DOMContentLoaded',()=>{
   if(footer)footer.before(section);
 });
 
+/* Lets visitors reopen the consent choices after dismissing the banner. */
+document.addEventListener('DOMContentLoaded',()=>{
+  const copyright=document.querySelector('.copyright');
+  if(!copyright||copyright.querySelector('.cookie-settings-button'))return;
+  const button=document.createElement('button');
+  button.type='button';button.className='cookie-settings-button';button.textContent='Cookie settings';
+  button.addEventListener('click',()=>window.CookieConsent?.showPreferences());
+  copyright.append(' · ',button);
+});
+
 
 /* Searchable tool finder: a compact command-palette style search, within the existing header. */
 document.addEventListener('DOMContentLoaded',()=>{
